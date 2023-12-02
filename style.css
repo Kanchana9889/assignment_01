@@ -1,0 +1,23 @@
+button{
+	border: none;
+	background: none;
+	height:60px;
+}
+
+button:hover{
+	background:#000000;
+}
+
+.toolbar{
+	display:flex;
+	justify-content:center;
+	gap:20px;
+	align-items:center;
+}
+
+#containereditor{
+	max-width:80px;
+	margin:20px auto;
+	height:200PX;
+	border:1PX SOLID #000000;
+}
