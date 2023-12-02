@@ -1,3 +1,4 @@
+
 function textcolor() {
     document.querySelectorAll('.textcolor').forEach(function (element) {
         element.addEventListener('click', function () {
@@ -9,3 +10,20 @@ function textcolor() {
         });
     });
 }
+
+
+function italic(){
+document.execCommand('italic',true,null)
+}
+
+
+function Underline(){
+    document.execCommand('Underline',true,null)
+    }
+
+function bold(){
+    document.execCommand('bold',true,null)
+}
+
+
+
