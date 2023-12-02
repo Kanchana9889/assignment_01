@@ -25,3 +25,12 @@ element.addEventListener('click',function(){
     })
 }
 
+function justify(){
+    document.querySelectorAll('.justify').forEach(function(element){
+element.addEventListener('click',function(){
+    document.getElementById('containereditor').style.textAlign='justify'
+})
+
+    })
+}
+
