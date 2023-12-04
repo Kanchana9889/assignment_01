@@ -36,8 +36,9 @@
                 <button class="italic" onclick="italic()">
                 <img src="Resources/italic-xxl.png" width="30">
             </button>
-             <button class="textcolor" onclick="textcolor()">
-                <img src="Resources/Custom-Icon-Design-Flatastic-10-Font-color.512.png" width="30">
+            <button id="colorPickerButton" title="colorpick">
+                <img src="Resources\Custom-Icon-Design-Flatastic-10-Font-color.512.png" alt="colorpick" width="30px">
+                <input type="color" id="fontColorPicker" style="display:none;" oninput="changeFontColor(event)">
             </button>
           
            <button class="left" onclick="left() ">

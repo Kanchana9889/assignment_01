@@ -1,37 +1,85 @@
 
-var contentHistory =[]
-var currentstep = 0
+var editor = document.getElementById('containereditor');
+var contentHistory = [];
+var alignmentHistory = [];
+var selectionHistory = [];
+var currentStep = 0;
 
-function undo(){
+function saveState() {
+    contentHistory = contentHistory.slice(0, currentStep + 1);
+    alignmentHistory = alignmentHistory.slice(0, currentStep + 1);
+    selectionHistory = selectionHistory.slice(0, currentStep + 1);
 
-    if(currentstep > 0){
-        currentstep --
-        if(contentHistory[currentstep] !== undefined ) {
-            document.getElementById('containereditor').innerHTML=contentHistory[currentstep]
-        }
+    contentHistory.push(editor.innerHTML);
+    alignmentHistory.push(getTextAlignment());
+    selectionHistory.push(saveSelection());
+    currentStep = contentHistory.length - 1;
+}
+
+function undo() {
+    if (currentStep > 0) {
+        currentStep--;
+        restoreState();
     }
 }
 
-function redo(){
-
-    if(currentstep > 0){
-        currentstep ++
-        if(contentHistory[currentstep] !== undefined ) {
-            document.getElementById('containereditor').innerHTML=contentHistory[currentstep]
-        }
+function redo() {
+    if (currentStep < contentHistory.length - 1) {
+        currentStep++;
+        restoreState();
     }
 }
 
-document.querySelectorAll('#containereditor').forEach(function(element){
-    element.addEventListener('input',function(){
-        currentstep++
-        if(currentstep<contentHistory.length){
-            contentHistory=contentHistory.slice(0,currentstep)
-        }
+function restoreState() {
+    editor.innerHTML = contentHistory[currentStep];
+    setTextAlignment(alignmentHistory[currentStep]);
+    restoreSelection(selectionHistory[currentStep]);
+}
 
-        contentHistory.push(document.getElementById('containereditor').innerHTML)
-    })
-})
+function getTextAlignment() {
+    return getComputedStyle(editor).textAlign;
+}
+
+function setTextAlignment(alignment) {
+    editor.style.textAlign = alignment;
+}
+
+function saveSelection() {
+    var selection = window.getSelection();
+    if (selection.rangeCount > 0) {
+        var range = selection.getRangeAt(0);
+        return {
+            startContainer: range.startContainer,
+            startOffset: range.startOffset,
+            endContainer: range.endContainer,
+            endOffset: range.endOffset
+        };
+    }
+    return null;
+}
+
+
+function restoreSelection(selection) {
+    if (selection) {
+        var range = document.createRange();
+        range.setStart(selection.startContainer, selection.startOffset);
+        range.setEnd(selection.endContainer, selection.endOffset);
+
+
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+    }
+}
+
+document.querySelectorAll('#containereditor').forEach(function (element) {
+    element.addEventListener('input', function () {
+        saveState();
+    });
+});
+
+
+saveState();
 
 
 function left(){
@@ -73,16 +121,22 @@ element.addEventListener('click',function(){
 
 
 
-function textcolor() {
-    document.querySelectorAll('.textcolor').forEach(function (element) {
-        element.addEventListener('click', function () {
-            var selection = window.getSelection();
-            var highlightedText = selection.toString();
-            var span = "<span style='color: blue;'>" + highlightedText + "</span>";
-            var containerEditor = document.getElementById('containereditor');
-            containerEditor.innerHTML = containerEditor.innerHTML.replace(highlightedText, span);
-        });
-    });
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('colorPickerButton').addEventListener('click',colorPickeropen);
+});
+
+
+
+
+function colorPickeropen() {
+    const colorPicker = document.getElementById('fontColorPicker');
+    colorPicker.click();
+}
+
+function changeFontColor() {
+    const colorPicker = document.getElementById('fontColorPicker');
+    const selectedColor = colorPicker.value;
+    document.execCommand('foreColor', true, selectedColor);
 }
 
 
