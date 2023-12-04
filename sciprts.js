@@ -58,11 +58,13 @@ function saveSelection() {
     return null;
 }
 
+
 function restoreSelection(selection) {
     if (selection) {
         var range = document.createRange();
         range.setStart(selection.startContainer, selection.startOffset);
         range.setEnd(selection.endContainer, selection.endOffset);
+
 
         var sel = window.getSelection();
         sel.removeAllRanges();
@@ -119,16 +121,22 @@ element.addEventListener('click',function(){
 
 
 
-function textcolor() {
-    document.querySelectorAll('.textcolor').forEach(function (element) {
-        element.addEventListener('click', function () {
-            var selection = window.getSelection();
-            var highlightedText = selection.toString();
-            var span = "<span style='color: blue;'>" + highlightedText + "</span>";
-            var containerEditor = document.getElementById('containereditor');
-            containerEditor.innerHTML = containerEditor.innerHTML.replace(highlightedText, span);
-        });
-    });
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('colorPickerButton').addEventListener('click',colorPickeropen);
+});
+
+
+
+
+function colorPickeropen() {
+    const colorPicker = document.getElementById('fontColorPicker');
+    colorPicker.click();
+}
+
+function changeFontColor() {
+    const colorPicker = document.getElementById('fontColorPicker');
+    const selectedColor = colorPicker.value;
+    document.execCommand('foreColor', true, selectedColor);
 }
 
 
