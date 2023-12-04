@@ -1,3 +1,4 @@
+// Feature 6: Undo and Redo
 
 var editor = document.getElementById('containereditor');
 var contentHistory = [];
@@ -82,6 +83,8 @@ document.querySelectorAll('#containereditor').forEach(function (element) {
 saveState();
 
 
+//Feature 5: Text Alignment (Left, Center ,Right , and Justify)
+
 function left(){
     document.querySelectorAll('.left').forEach(function(element){
 element.addEventListener('click',function(){
@@ -119,7 +122,7 @@ element.addEventListener('click',function(){
 }
 
 
-
+//Feature 4: Font Color
 
 document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('colorPickerButton').addEventListener('click',colorPickeropen);
@@ -139,16 +142,17 @@ function changeFontColor() {
     document.execCommand('foreColor', true, selectedColor);
 }
 
-
+//Feature 3: Italic
 function italic(){
 document.execCommand('italic',true,null)
 }
 
-
+//Feature 2: Underline
 function Underline(){
     document.execCommand('Underline',true,null)
     }
 
+    //Feature 1: Bold
 function bold(){
     document.execCommand('bold',true,null)
 }
